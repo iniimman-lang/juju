@@ -17,6 +17,9 @@ dotenv.config()
 const app = express()
 const PORT = process.env.PORT || 5001
 
+// serve frontend assets from public directory
+app.use(express.static(path.join(__dirname, 'public')))
+
 // Configure multer for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -49,6 +52,11 @@ const upload = multer({
 
 // Serve uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
+
+// Fallback to index.html for client-side routing
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'))
+})
 
 // Initialize SQLite database
 const db = new Database(path.join(__dirname, 'database.sqlite'))
