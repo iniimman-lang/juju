@@ -17,8 +17,10 @@ dotenv.config()
 const app = express()
 const PORT = process.env.PORT || 5001
 
-// serve frontend assets from public directory
-app.use(express.static(path.join(__dirname, 'public')))
+// Middleware
+app.use(cors())
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
@@ -114,11 +116,6 @@ db.exec(`CREATE TABLE IF NOT EXISTS enrollments (
     notes TEXT DEFAULT '',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   )`)
-
-// Middleware
-app.use(cors())
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
 
 // Auth middleware
 const authenticateToken = (req, res, next) => {
