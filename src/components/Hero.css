@@ -1,0 +1,230 @@
+.hero {
+  padding: var(--spacing-xxxl) 0;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.7) 100%), url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1920&h=1080&fit=crop') no-repeat center center fixed;
+  background-size: cover;
+  color: var(--color-white);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.hero-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-xxl);
+  align-items: center;
+}
+
+.hero-content {
+  max-width: 100%;
+}
+
+.hero-content h1 {
+  font-size: 2.75rem;
+  line-height: 1.2;
+  margin-bottom: var(--spacing-md);
+  font-weight: 800;
+}
+
+.hero-content .sub {
+  font-size: 1.125rem;
+  opacity: 0.95;
+  margin-bottom: var(--spacing-xl);
+  line-height: 1.7;
+}
+
+.hero-ctas {
+  display: flex;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+  margin-bottom: var(--spacing-xxl);
+}
+
+.hero-ctas .btn {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+}
+
+.hero-ctas .btn.primary {
+  background: var(--color-primary);
+  color: var(--color-white);
+  border: none;
+}
+
+.hero-ctas .btn.primary:hover {
+  background: var(--color-primary-dark);
+}
+
+.hero-ctas .btn {
+  background: var(--color-white);
+  color: var(--color-secondary);
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.hero-ctas .btn:hover {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* Features - Horizontal Bars */
+.features {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  list-style: none;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: transform var(--transition-normal), background var(--transition-normal);
+}
+
+.feature-item:hover {
+  transform: translateX(0.25rem);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.feature-icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: linear-gradient(135deg, var(--color-primary) 0%, #ff6b6b 100%);
+  border-radius: 50%;
+}
+
+.feature-icon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.feature-text {
+  font-size: 0.95rem;
+  color: var(--color-white);
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* Media Section */
+.hero-media {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.media-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-lg);
+  width: 100%;
+  max-width: 25rem;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.media-image {
+  width: 100%;
+  height: 12.5rem;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+}
+
+.media-heading {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-white);
+  margin-top: var(--spacing-md);
+  margin-bottom: 0;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 75em) {
+  .hero-container {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xxl);
+  }
+
+  .hero-media {
+    order: -1;
+  }
+}
+
+@media (max-width: 48em) {
+  .hero {
+    padding: var(--spacing-xxl) 0;
+    min-height: auto;
+  }
+
+  .hero-content h1 {
+    font-size: 1.75rem;
+  }
+
+  .hero-content .sub {
+    font-size: 1rem;
+  }
+
+  .hero-ctas {
+    flex-direction: column;
+  }
+
+  .hero-ctas .btn {
+    width: 100%;
+  }
+
+  .feature-item {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .feature-icon {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .feature-icon svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .feature-text {
+    font-size: 0.85rem;
+  }
+
+  .media-card {
+    padding: var(--spacing-md);
+  }
+
+  .media-image {
+    height: 10rem;
+  }
+
+  .media-heading {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 30em) {
+  .hero-content h1 {
+    font-size: 1.5rem;
+  }
+}

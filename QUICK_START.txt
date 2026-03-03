@@ -1,0 +1,58 @@
+=====================================
+  DEPLOY YOUR SITE - QUICK GUIDE
+=====================================
+
+STEP 1: PUSH TO GITHUB (5 min)
+-------------------------------
+1. Go to github.com and create new repo
+2. Copy the repo URL
+3. Run these commands in terminal:
+
+cd /Users/inioduudosoh/Desktop/juju
+git init
+git add .
+git commit -m "Ready to deploy
+
+Co-authored-by: Qwen-Coder <qwen-coder@alibabacloud.com>"
+git branch -M main
+git remote add origin YOUR_GITHUB_REPO_URL
+git push -u origin main
+
+
+STEP 2: DEPLOY BACKEND (10 min)
+-------------------------------
+1. Go to: https://render.com
+2. Sign up with GitHub
+3. Click "New +" then "Web Service"
+4. Connect your GitHub repo
+5. Settings:
+   - Root Directory: server
+   - Build: npm install
+   - Start: node server.js
+6. Add Environment Variables:
+   - PORT = 5001
+   - JWT_SECRET = mysecretkey123
+7. Click "Create Web Service"
+8. Wait 5 minutes, copy your URL
+
+
+STEP 3: DEPLOY FRONTEND (5 min)
+-------------------------------
+1. Go to: https://vercel.com
+2. Sign up with GitHub
+3. "Add New Project"
+4. Import your GitHub repo
+5. Settings:
+   - Framework: Vite
+   - Build Command: npm run build
+6. Add Environment Variable:
+   - VITE_API_URL = YOUR_RENDER_BACKEND_URL
+7. Click "Deploy"
+
+
+DONE! 
+-------------------------------
+Frontend: https://your-app.vercel.app
+Backend:  https://your-app.onrender.com
+
+Questions? Check DEPLOYMENT.md for detailed guide!

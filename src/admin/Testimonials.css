@@ -1,0 +1,30 @@
+.testimonials-page { max-width: 1200px; }
+.testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.testimonial-card { background: #fff; padding: 1.5rem; border-radius: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+.testimonial-header { display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; }
+.testimonial-header img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
+.testimonial-header strong { display: block; color: #1a1a2e; }
+.testimonial-header span { font-size: 0.85rem; color: #666; }
+.rating { color: #fbbf24; margin-bottom: 1rem; display: flex; gap: 0.25rem; }
+.testimonial-card p { color: #666; line-height: 1.6; }
+.testimonial-card .actions { display: flex; gap: 0.5rem; margin-top: 1rem; }
+.testimonial-card .actions button { padding: 0.5rem; border: none; background: #f0f0f0; border-radius: 0.25rem; cursor: pointer; }
+.testimonial-card .actions button:hover { background: #e94560; color: #fff; }
+
+/* File Upload Styles */
+.file-upload { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+.file-upload .preview { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 2px solid #e0e0e0; }
+.upload-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; border-radius: 0.5rem; cursor: pointer; font-weight: 600; transition: transform 0.3s; }
+.upload-btn:hover { transform: translateY(-2px); }
+.file-name { font-size: 0.85rem; color: #666; }
+
+@media (max-width: 768px) {
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .page-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .modal-content { max-height: 95vh; margin: 1rem 0; }
+}
+
+@media (max-width: 480px) {
+  .testimonial-header img { width: 40px; height: 40px; }
+  .file-upload .preview { width: 80px; height: 80px; }
+}

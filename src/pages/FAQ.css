@@ -1,0 +1,150 @@
+.faq-page {
+  background: var(--color-bg-light);
+}
+
+/* Hero */
+.faq-hero {
+  padding: var(--spacing-xxxl) 0;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%);
+  color: var(--color-white);
+  text-align: center;
+}
+
+.faq-hero-content h1 {
+  font-size: 2.75rem;
+  margin-bottom: var(--spacing-md);
+}
+
+.faq-hero-content p {
+  font-size: 1.125rem;
+  opacity: 0.95;
+  max-width: 40rem;
+  margin: 0 auto;
+}
+
+/* FAQ Section */
+.faq-section {
+  padding: var(--spacing-xxxl) 0;
+}
+
+.faq-grid {
+  max-width: 50rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.faq-card {
+  background: var(--color-bg-gray);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+}
+
+.faq-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.faq-card.open {
+  background: var(--color-white);
+  box-shadow: var(--shadow-md);
+}
+
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-lg);
+  gap: var(--spacing-md);
+}
+
+.faq-question h3 {
+  font-size: 1.0625rem;
+  color: var(--color-heading);
+  margin: 0;
+  font-weight: 600;
+  text-align: left;
+}
+
+.chevron {
+  color: var(--color-primary);
+  flex-shrink: 0;
+  transition: transform var(--transition-normal);
+}
+
+.chevron.rotated {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--transition-normal);
+}
+
+.faq-card.open .faq-answer {
+  max-height: 20rem;
+}
+
+.faq-answer p {
+  padding: 0 var(--spacing-lg) var(--spacing-lg) var(--spacing-lg);
+  font-size: 0.95rem;
+  color: var(--color-text-light);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* CTA Section */
+.faq-cta {
+  padding: var(--spacing-xxxl) 0;
+  background: var(--color-bg-gray);
+  text-align: center;
+}
+
+.faq-cta .cta-content {
+  max-width: 40rem;
+  margin: 0 auto;
+}
+
+.faq-cta .cta-content h2 {
+  font-size: 2rem;
+  color: var(--color-heading);
+  margin-bottom: var(--spacing-md);
+}
+
+.faq-cta .cta-content p {
+  font-size: 1.0625rem;
+  color: var(--color-text-light);
+  margin-bottom: var(--spacing-xl);
+}
+
+/* Responsive */
+@media (max-width: 48em) {
+  .faq-hero {
+    padding: var(--spacing-xxl) 0;
+  }
+
+  .faq-hero-content h1 {
+    font-size: 2rem;
+  }
+
+  .faq-hero-content p {
+    font-size: 1rem;
+  }
+
+  .faq-question h3 {
+    font-size: 1rem;
+  }
+
+  .faq-cta .cta-content h2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 30em) {
+  .faq-hero-content h1 {
+    font-size: 1.75rem;
+  }
+}

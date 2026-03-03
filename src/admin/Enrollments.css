@@ -1,0 +1,56 @@
+.enrollments-page { max-width: 1200px; }
+.enrollments-table { background: #fff; border-radius: 1rem; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+.enrollments-table table { width: 100%; border-collapse: collapse; }
+.enrollments-table th, .enrollments-table td { padding: 1rem 1.5rem; text-align: left; }
+.enrollments-table th { background: #f8f9fa; font-weight: 600; color: #666; font-size: 0.85rem; text-transform: uppercase; }
+.enrollments-table td { border-top: 1px solid #eee; }
+.enrollments-table .badge { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.75rem; font-weight: 600; color: #fff; text-transform: capitalize; min-width: 100px; text-align: center; }
+.enrollments-table .actions { display: flex; gap: 0.5rem; }
+.enrollments-table .actions button { padding: 0.5rem; border: none; background: #f0f0f0; border-radius: 0.25rem; cursor: pointer; transition: all 0.3s; }
+.enrollments-table .actions button:hover:not(:disabled) { background: #e94560; color: #fff; transform: scale(1.1); }
+.enrollments-table .actions button:first-child:hover:not(:disabled) { background: #00d9c0; }
+.enrollments-table .actions button:last-child:hover:not(:disabled) { background: #fc8181; }
+.enrollments-table .actions button:disabled { cursor: not-allowed; }
+
+/* Notification */
+.notification {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  padding: 1rem 1.5rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 600;
+  z-index: 1000;
+  animation: slideIn 0.3s ease-out;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.notification.success {
+  background: #00d9c0;
+  color: #fff;
+}
+
+.notification.error {
+  background: #fc8181;
+  color: #fff;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@media (max-width: 768px) {
+  .enrollments-page { padding: 0.5rem; }
+  .enrollments-table { overflow-x: auto; }
+  .enrollments-table table { min-width: 700px; }
+  .enrollments-table th, .enrollments-table td { padding: 0.75rem 1rem; font-size: 0.85rem; }
+  .notification { top: 1rem; right: 1rem; left: 1rem; }
+}
+
+@media (max-width: 480px) {
+  .enrollments-table th, .enrollments-table td { padding: 0.5rem 0.75rem; }
+}

@@ -1,0 +1,206 @@
+.courses-section {
+  padding: var(--spacing-xxxl) 0;
+  background: var(--color-bg-gray);
+}
+
+.courses-head {
+  text-align: center;
+  max-width: 45rem;
+  margin: 0 auto var(--spacing-xxxl) auto;
+}
+
+.section-badge {
+  display: inline-block;
+  padding: var(--spacing-xs) var(--spacing-md);
+  background: rgba(233, 69, 96, 0.1);
+  color: var(--color-primary);
+  border-radius: var(--radius-xl);
+  font-weight: 600;
+  font-size: 0.875rem;
+  margin-bottom: var(--spacing-md);
+}
+
+.courses-head h2 {
+  font-size: 2.25rem;
+  color: var(--color-heading);
+  margin-bottom: var(--spacing-md);
+  line-height: 1.2;
+}
+
+.courses-head .muted {
+  color: var(--color-text-muted);
+  font-size: 1.0625rem;
+  margin-bottom: var(--spacing-lg);
+}
+
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-lg);
+}
+
+.course-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.course-card {
+  background: var(--color-bg-light);
+  padding: var(--spacing-xl);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.course-card:hover {
+  transform: translateY(-0.5rem);
+  box-shadow: var(--shadow-hover);
+}
+
+.course-card.popular {
+  border: 0.125rem solid var(--color-primary);
+}
+
+.popular-badge {
+  position: absolute;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  background: var(--color-primary);
+  color: var(--color-white);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-xl);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.course-icon {
+  width: 3.5rem;
+  height: 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-dark) 100%);
+  color: var(--color-white);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.course-icon svg {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.course-card h3 {
+  font-size: 1.125rem;
+  color: var(--color-heading);
+  margin-bottom: var(--spacing-sm);
+  line-height: 1.4;
+}
+
+.course-desc {
+  color: var(--color-text-light);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: var(--spacing-md);
+  flex-grow: 1;
+}
+
+.course-meta {
+  margin-bottom: var(--spacing-md);
+}
+
+.course-duration {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  background: var(--color-bg-gray);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.course-duration svg {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.btn-outline {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  padding: 0.75rem var(--spacing-md);
+  border: 0.125rem solid var(--color-primary);
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-weight: 600;
+  text-decoration: none;
+  transition: all var(--transition-normal);
+}
+
+.btn-outline:hover {
+  background: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+  color: var(--color-white);
+}
+
+@media (max-width: 75em) {
+  .courses-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 62em) {
+  .courses-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 48em) {
+  .courses-section {
+    padding: var(--spacing-xxl) 0;
+  }
+
+  .courses-head h2 {
+    font-size: 1.75rem;
+  }
+
+  .courses-head .muted {
+    font-size: 1rem;
+  }
+
+  .courses-grid {
+    gap: var(--spacing-md);
+  }
+
+  .course-card {
+    padding: var(--spacing-lg);
+  }
+
+  .course-icon {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .course-icon svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}
+
+@media (max-width: 30em) {
+  .courses-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .courses-head h2 {
+    font-size: 1.5rem;
+  }
+}
