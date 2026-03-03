@@ -55,11 +55,6 @@ const upload = multer({
 // Serve uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
-// Fallback to index.html for client-side routing
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'))
-})
-
 // Initialize SQLite database
 const db = new Database(path.join(__dirname, 'database.sqlite'))
 
@@ -277,6 +272,11 @@ app.delete('/api/enrollments/:id', authenticateToken, (req, res) => {
 app.use((err, req, res, next) => {
   console.error(err.stack)
   res.status(500).json({ error: 'Something went wrong!' })
+})
+
+// Fallback to index.html for client-side routing (must be after API routes)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'))
 })
 
 app.listen(PORT, () => {
