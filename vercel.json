@@ -6,7 +6,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://juju-api.onrender.com/api/:path*"
+      "destination": "https://juju-api-64pk.onrender.com/api/:path*"
     },
     {
       "source": "/(.*)",
