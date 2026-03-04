@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { FaBook, FaUsers, FaEnvelope, FaChartLine } from 'react-icons/fa'
 import './Dashboard.css'
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001'
+
 function Dashboard() {
   const [stats, setStats] = useState({
     courses: 0,
@@ -20,9 +22,9 @@ function Dashboard() {
   const fetchStats = async () => {
     try {
       const [coursesRes, testimonialsRes, enrollmentsRes] = await Promise.all([
-        fetch('http://localhost:5001/api/courses'),
-        fetch('http://localhost:5001/api/testimonials'),
-        fetch('http://localhost:5001/api/enrollments', {
+        fetch(`${API_URL}/api/courses`),
+        fetch(`${API_URL}/api/testimonials`),
+        fetch(`${API_URL}/api/enrollments`, {
           headers: { 'Authorization': `Bearer ${token}` }
         })
       ])

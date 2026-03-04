@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { FaCheck, FaTimes, FaEye, FaExclamationCircle } from 'react-icons/fa'
 import './Enrollments.css'
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001'
+
 function Enrollments() {
   const [enrollments, setEnrollments] = useState([])
   const [loading, setLoading] = useState(true)
@@ -13,7 +15,7 @@ function Enrollments() {
   }, [])
 
   const fetchEnrollments = async () => {
-    const res = await fetch('http://localhost:5001/api/enrollments', {
+    const res = await fetch(`${API_URL}/api/enrollments`, {
       headers: { 'Authorization': `Bearer ${token}` }
     })
     const data = await res.json()
@@ -27,7 +29,7 @@ function Enrollments() {
     }
 
     try {
-      const response = await fetch(`http://localhost:5001/api/enrollments/${id}`, {
+      const response = await fetch(`${API_URL}/api/enrollments/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

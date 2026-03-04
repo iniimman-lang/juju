@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { FaEdit, FaTrash, FaPlus, FaEye } from 'react-icons/fa'
 import './Courses.css'
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001'
+
 function Courses() {
   const [courses, setCourses] = useState([])
   const [loading, setLoading] = useState(true)
@@ -33,7 +35,7 @@ function Courses() {
 
   const fetchCourses = async () => {
     try {
-      const res = await fetch('http://localhost:5001/api/courses')
+      const res = await fetch(`${API_URL}/api/courses`)
       const data = await res.json()
       setCourses(data)
     } catch (error) {
@@ -53,7 +55,7 @@ function Courses() {
     if (!confirm('Are you sure you want to delete this course?')) return
 
     try {
-      await fetch(`http://localhost:5001/api/courses/${id}`, {
+      await fetch(`${API_URL}/api/courses/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       })
@@ -68,8 +70,8 @@ function Courses() {
 
     try {
       const url = editingId
-        ? `http://localhost:5001/api/courses/${editingId}`
-        : 'http://localhost:5001/api/courses'
+        ? `${API_URL}/api/courses/${editingId}`
+        : `${API_URL}/api/courses`
 
       const method = editingId ? 'PUT' : 'POST'
 
