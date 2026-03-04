@@ -1,75 +1,50 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FaFacebook, FaInstagram, FaTiktok, FaBullhorn, FaEnvelope, FaPenNib, FaWhatsapp, FaVideo, FaCalendarAlt } from 'react-icons/fa'
 import './CoursesSection.css'
 
-const courses = [
-  { 
-    id: 'social-media',
-    title: 'Social Media Management', 
-    desc: 'Help brands grow their online presence across all platforms.', 
-    icon: FaBullhorn,
-    duration: '8 weeks',
-    popular: true
-  },
-  { 
-    id: 'facebook-ads',
-    title: 'Facebook & Instagram Ads', 
-    desc: 'Master Meta ads to drive sales and conversions for businesses.', 
-    icon: FaFacebook,
-    duration: '6 weeks',
-    popular: false
-  },
-  { 
-    id: 'tiktok-ads',
-    title: 'TikTok Ads', 
-    desc: 'Tap into the fastest-growing platform for viral marketing.', 
-    icon: FaTiktok,
-    duration: '4 weeks',
-    popular: true
-  },
-  { 
-    id: 'digital-marketing',
-    title: 'Digital Marketing', 
-    desc: 'Learn complete online sales funnels and marketing strategies.', 
-    icon: FaBullhorn,
-    duration: '10 weeks',
-    popular: false
-  },
-  { 
-    id: 'virtual-assistant',
-    title: 'Virtual Assistant', 
-    desc: 'Provide remote administrative and creative support to executives.', 
-    icon: FaEnvelope,
-    duration: '8 weeks',
-    popular: false
-  },
-  { 
-    id: 'graphic-design',
-    title: 'Graphic Design', 
-    desc: 'Create stunning visuals for ads, brands, and marketing materials.', 
-    icon: FaPenNib,
-    duration: '10 weeks',
-    popular: true
-  },
-  { 
-    id: 'whatsapp-marketing',
-    title: 'WhatsApp Marketing', 
-    desc: 'Help businesses sell directly through WhatsApp conversations.', 
-    icon: FaWhatsapp,
-    duration: '4 weeks',
-    popular: false
-  },
-  { 
-    id: 'video-editing',
-    title: 'Video Editing', 
-    desc: 'Edit engaging content for creators, brands, and social media.', 
-    icon: FaVideo,
-    duration: '8 weeks',
-    popular: true
-  },
-]
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001'
+
+// Icon mapping
+const iconMap = {
+  FaBullhorn: FaBullhorn,
+  FaFacebook: FaFacebook,
+  FaTiktok: FaTiktok,
+  FaEnvelope: FaEnvelope,
+  FaPenNib: FaPenNib,
+  FaWhatsapp: FaWhatsapp,
+  FaVideo: FaVideo
+}
 
 function CoursesSection() {
+  const [courses, setCourses] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetchCourses()
+  }, [])
+
+  const fetchCourses = async () => {
+    try {
+      const res = await fetch(`${API_URL}/api/courses`)
+      const data = await res.json()
+      setCourses(data)
+    } catch (error) {
+      console.error('Error fetching courses:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (loading) {
+    return (
+      <section className="courses-section" id="courses">
+        <div className="container">
+          <div className="loading">Loading courses...</div>
+        </div>
+      </section>
+    )
+  }
   return (
     <section className="courses-section" id="courses">
       <div className="container">
@@ -83,22 +58,29 @@ function CoursesSection() {
         </div>
 
         <div className="courses-grid">
-          {courses.map((course, index) => (
-            <Link to={`/course/${course.id}`} className="course-card-link" key={index}>
-              <article className={`course-card ${course.popular ? 'popular' : ''}`}>
-                {course.popular && <span className="popular-badge">Popular</span>}
-                <div className="course-icon">
-                  <course.icon />
-                </div>
-                <h3>{course.title}</h3>
-                <p className="course-desc">{course.desc}</p>
-                <div className="course-meta">
-                  <span className="course-duration"><FaCalendarAlt /> {course.duration}</span>
-                </div>
-                <span className="btn-outline">View Details</span>
-              </article>
-            </Link>
-          ))}
+          {courses.length === 0 ? (
+            <p style={{ textAlign: 'center', gridColumn: '1/-1' }}>No courses available yet.</p>
+          ) : (
+            courses.map((course, index) => {
+              const IconComponent = iconMap[course.icon] || FaBullhorn
+              return (
+                <Link to={`/course/${course.slug}`} className="course-card-link" key={course.id || index}>
+                  <article className={`course-card ${course.popular ? 'popular' : ''}`}>
+                    {course.popular && <span className="popular-badge">Popular</span>}
+                    <div className="course-icon">
+                      <IconComponent />
+                    </div>
+                    <h3>{course.title}</h3>
+                    <p className="course-desc">{course.shortDesc}</p>
+                    <div className="course-meta">
+                      <span className="course-duration"><FaCalendarAlt /> {course.duration}</span>
+                    </div>
+                    <span className="btn-outline">View Details</span>
+                  </article>
+                </Link>
+              )
+            })
+          )}
         </div>
       </div>
     </section>
