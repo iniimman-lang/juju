@@ -1,5 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001'
+
 const AuthContext = createContext(null)
 
 export function AuthProvider({ children }) {
@@ -18,7 +20,7 @@ export function AuthProvider({ children }) {
 
   const fetchAdminInfo = async () => {
     try {
-      const res = await fetch('http://localhost:5001/api/auth/me', {
+      const res = await fetch(`${API_URL}/api/auth/me`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -37,17 +39,17 @@ export function AuthProvider({ children }) {
   }
 
   const login = async (username, password) => {
-    const res = await fetch('http://localhost:5001/api/auth/login', {
+    const res = await fetch(`${API_URL}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password })
     })
-    
+
     if (!res.ok) {
       const error = await res.json()
       throw new Error(error.error || 'Login failed')
     }
-    
+
     const data = await res.json()
     setToken(data.token)
     setAdmin(data.admin)
