@@ -9,7 +9,11 @@ function Courses() {
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
   const [editingId, setEditingId] = useState(null)
+  const [editingSlug, setEditingSlug] = useState(null)
   const token = localStorage.getItem('adminToken')
+
+  // Helper to get the ID field (SQLite uses 'id', MongoDB uses '_id')
+  const getId = (item) => item.id || item._id
 
   const [formData, setFormData] = useState({
     title: '',
@@ -47,15 +51,17 @@ function Courses() {
 
   const handleEdit = (course) => {
     setFormData(course)
-    setEditingId(course._id)
+    setEditingId(course.id || course._id)
+    setEditingSlug(course.slug)
     setShowForm(true)
   }
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (course) => {
     if (!confirm('Are you sure you want to delete this course?')) return
 
     try {
-      await fetch(`${API_URL}/api/courses/${id}`, {
+      // For Supabase, courses are deleted by slug
+      await fetch(`${API_URL}/api/courses/${course.slug}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       })
@@ -69,8 +75,9 @@ function Courses() {
     e.preventDefault()
 
     try {
+      // For update, use slug (Supabase uses slug for courses)
       const url = editingId
-        ? `${API_URL}/api/courses/${editingId}`
+        ? `${API_URL}/api/courses/${editingSlug || editingId}`
         : `${API_URL}/api/courses`
 
       const method = editingId ? 'PUT' : 'POST'
@@ -86,6 +93,7 @@ function Courses() {
 
       setShowForm(false)
       setEditingId(null)
+      setEditingSlug(null)
       resetForm()
       fetchCourses()
     } catch (error) {
@@ -111,6 +119,8 @@ function Courses() {
       image: '',
       popular: false
     })
+    setEditingId(null)
+    setEditingSlug(null)
   }
 
   const addArrayItem = (field) => {
@@ -268,7 +278,7 @@ function Courses() {
               </div>
 
               <div className="form-actions">
-                <button type="button" onClick={() => setShowForm(false)}>Cancel</button>
+                <button type="button" onClick={() => { resetForm(); setShowForm(false); }}>Cancel</button>
                 <button type="submit" className="btn-primary">{editingId ? 'Update' : 'Create'} Course</button>
               </div>
             </form>
@@ -290,7 +300,7 @@ function Courses() {
           </thead>
           <tbody>
             {courses.map((course) => (
-              <tr key={course._id}>
+              <tr key={getId(course)}>
                 <td>{course.title}</td>
                 <td><span className="badge">{course.level}</span></td>
                 <td>{course.duration}</td>
@@ -299,7 +309,7 @@ function Courses() {
                 <td className="actions">
                   <button onClick={() => window.open(`/course/${course.slug}`, '_blank')} title="View"><FaEye /></button>
                   <button onClick={() => handleEdit(course)} title="Edit"><FaEdit /></button>
-                  <button onClick={() => handleDelete(course._id)} title="Delete"><FaTrash /></button>
+                  <button onClick={() => handleDelete(course)} title="Delete"><FaTrash /></button>
                 </td>
               </tr>
             ))}

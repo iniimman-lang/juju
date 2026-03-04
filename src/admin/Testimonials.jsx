@@ -13,6 +13,9 @@ function Testimonials() {
   const [selectedFile, setSelectedFile] = useState(null)
   const token = localStorage.getItem('adminToken')
 
+  // Helper to get the ID field (SQLite uses 'id', MongoDB uses '_id')
+  const getId = (item) => item.id || item._id
+
   const [formData, setFormData] = useState({
     name: '',
     role: '',
@@ -32,9 +35,9 @@ function Testimonials() {
     setLoading(false)
   }
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (testimonial) => {
     if (!confirm('Delete this testimonial?')) return
-    await fetch(`${API_URL}/api/testimonials/${id}`, {
+    await fetch(`${API_URL}/api/testimonials/${getId(testimonial)}`, {
       method: 'DELETE',
       headers: { 'Authorization': `Bearer ${token}` }
     })
@@ -61,6 +64,10 @@ function Testimonials() {
     if (selectedFile) {
       submitData.append('image', selectedFile)
     }
+    // Pass existing image if no new file is uploaded
+    if (editingId && !selectedFile && preview) {
+      submitData.append('existingImage', preview)
+    }
 
     const url = editingId
       ? `${API_URL}/api/testimonials/${editingId}`
@@ -78,6 +85,7 @@ function Testimonials() {
       setShowForm(false)
       setEditingId(null)
       setSelectedFile(null)
+      setPreview('')
       setFormData({ name: '', role: '', rating: 5, text: '', featured: false })
       fetchTestimonials()
     }
@@ -91,9 +99,27 @@ function Testimonials() {
       text: t.text,
       featured: t.featured
     })
-    setEditingId(t.id)
+    setEditingId(getId(t))
     setShowForm(true)
-    if (t.image) setPreview(t.image)
+    if (t.image) {
+      setPreview(t.image)
+    } else {
+      setPreview('')
+    }
+  }
+
+  const resetForm = () => {
+    setFormData({ name: '', role: '', rating: 5, text: '', featured: false })
+    setEditingId(null)
+    setSelectedFile(null)
+    setPreview('')
+  }
+
+  const toggleForm = () => {
+    if (showForm) {
+      resetForm()
+    }
+    setShowForm(!showForm)
   }
 
   if (loading) return <div className="loading">Loading testimonials...</div>
@@ -102,7 +128,7 @@ function Testimonials() {
     <div className="testimonials-page">
       <div className="page-header">
         <h1>Testimonials</h1>
-        <button onClick={() => setShowForm(!showForm)}>
+        <button onClick={toggleForm}>
           {showForm ? 'Cancel' : '+ Add Testimonial'}
         </button>
       </div>
@@ -154,7 +180,7 @@ function Testimonials() {
 
       <div className="testimonials-grid">
         {testimonials.map((t) => (
-          <div key={t.id} className={`testimonial-card ${t.featured ? 'featured' : ''}`}>
+          <div key={getId(t)} className={`testimonial-card ${t.featured ? 'featured' : ''}`}>
             {t.image && <img src={t.image} alt={t.name} />}
             <div className="stars">
               {[...Array(t.rating)].map((_, i) => (
@@ -167,7 +193,7 @@ function Testimonials() {
             </p>
             <div className="actions">
               <button onClick={() => handleEdit(t)}><FaEdit /> Edit</button>
-              <button onClick={() => handleDelete(t.id)}><FaTrash /> Delete</button>
+              <button onClick={() => handleDelete(t)}><FaTrash /> Delete</button>
             </div>
           </div>
         ))}

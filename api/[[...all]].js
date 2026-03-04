@@ -45,10 +45,28 @@ export async function GET(request) {
         if (error || !data) {
           return Response.json({ error: 'Course not found' }, { status: 404 })
         }
-        return Response.json(data)
+        // Transform snake_case to camelCase for frontend
+        const course = {
+          ...data,
+          whatYouLearn: data.what_you_learn || [],
+          modules: data.modules || [],
+          outcomes: data.outcomes || [],
+          shortDesc: data.short_desc,
+          popular: data.popular || false
+        }
+        return Response.json(course)
       }
       const { data } = await supabase.from('courses').select('*').order('created_at', { ascending: false })
-      return Response.json(data || [])
+      // Transform snake_case to camelCase for frontend
+      const courses = (data || []).map(c => ({
+        ...c,
+        whatYouLearn: c.what_you_learn || [],
+        modules: c.modules || [],
+        outcomes: c.outcomes || [],
+        shortDesc: c.short_desc,
+        popular: c.popular || false
+      }))
+      return Response.json(courses)
     }
 
     if (resource === 'testimonials') {
@@ -95,8 +113,31 @@ export async function POST(request) {
 
     if (resource === 'courses') {
       const body = await request.json()
-      const { data, error } = await supabase.from('courses').insert([body]).select()
-      if (error) return Response.json({ error: error.message }, { status: 400 })
+      console.log('Creating course with body:', body)
+      // Transform camelCase to snake_case for Supabase
+      const courseData = {
+        title: body.title,
+        slug: body.slug,
+        icon: body.icon,
+        level: body.level,
+        duration: body.duration,
+        students: body.students,
+        rating: body.rating,
+        price: body.price,
+        short_desc: body.shortDesc,
+        description: body.description,
+        what_you_learn: JSON.stringify(body.whatYouLearn || []),
+        modules: JSON.stringify(body.modules || []),
+        outcomes: JSON.stringify(body.outcomes || []),
+        image: body.image,
+        popular: body.popular || false
+      }
+      console.log('Transformed courseData:', courseData)
+      const { data, error } = await supabase.from('courses').insert([courseData]).select()
+      if (error) {
+        console.error('Supabase error:', error)
+        return Response.json({ error: error.message }, { status: 400 })
+      }
       return Response.json(data[0], { status: 201 })
     }
 
@@ -129,12 +170,37 @@ export async function PUT(request) {
 
     if (resource === 'courses' && id) {
       const body = await request.json()
+      console.log('Updating course', id, 'with body:', body)
+      // Check if id is a slug (contains hyphens or is not numeric)
+      const isSlug = isNaN(id) || id.includes('-')
+      // Transform camelCase to snake_case for Supabase
+      const courseData = {
+        title: body.title,
+        slug: body.slug,
+        icon: body.icon,
+        level: body.level,
+        duration: body.duration,
+        students: body.students,
+        rating: body.rating,
+        price: body.price,
+        short_desc: body.shortDesc,
+        description: body.description,
+        what_you_learn: JSON.stringify(body.whatYouLearn || []),
+        modules: JSON.stringify(body.modules || []),
+        outcomes: JSON.stringify(body.outcomes || []),
+        image: body.image,
+        popular: body.popular || false
+      }
+      console.log('Transformed courseData:', courseData)
       const { data, error } = await supabase
         .from('courses')
-        .update(body)
-        .eq('slug', id)
+        .update(courseData)
+        .eq(isSlug ? 'slug' : 'id', id)
         .select()
-      if (error) throw error
+      if (error) {
+        console.error('Supabase error:', error)
+        throw error
+      }
       return Response.json(data[0])
     }
 

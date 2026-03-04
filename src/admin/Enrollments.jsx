@@ -10,6 +10,9 @@ function Enrollments() {
   const [notification, setNotification] = useState(null)
   const token = localStorage.getItem('adminToken')
 
+  // Helper to get the ID field (SQLite uses 'id', MongoDB uses '_id')
+  const getId = (item) => item.id || item._id
+
   useEffect(() => {
     fetchEnrollments()
   }, [])
@@ -114,7 +117,7 @@ function Enrollments() {
               </tr>
             ) : (
               enrollments.map((e) => (
-                <tr key={e._id}>
+                <tr key={getId(e)}>
                   <td>{e.name}</td>
                   <td>{e.email}</td>
                   <td>{e.phone}</td>
@@ -122,16 +125,16 @@ function Enrollments() {
                   <td><span className="badge" style={{ background: getStatusColor(e.status) }}>{getStatusLabel(e.status)}</span></td>
                   <td>{new Date(e.createdAt).toLocaleDateString()}</td>
                   <td className="actions">
-                    <button 
-                      onClick={() => updateStatus(e._id, 'enrolled', e.name)} 
+                    <button
+                      onClick={() => updateStatus(getId(e), 'enrolled', e.name)}
                       title="Approve - Mark as enrolled"
                       disabled={e.status === 'enrolled' || e.status === 'rejected'}
                       style={{ opacity: (e.status === 'enrolled' || e.status === 'rejected') ? 0.3 : 1 }}
                     >
                       <FaCheck />
                     </button>
-                    <button 
-                      onClick={() => updateStatus(e._id, 'rejected', e.name)} 
+                    <button
+                      onClick={() => updateStatus(getId(e), 'rejected', e.name)}
                       title="Reject application"
                       disabled={e.status === 'enrolled' || e.status === 'rejected'}
                       style={{ opacity: (e.status === 'enrolled' || e.status === 'rejected') ? 0.3 : 1 }}
