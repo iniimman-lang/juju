@@ -93,6 +93,13 @@ export async function POST(request) {
       })
     }
 
+    if (resource === 'courses') {
+      const body = await request.json()
+      const { data, error } = await supabase.from('courses').insert([body]).select()
+      if (error) return Response.json({ error: error.message }, { status: 400 })
+      return Response.json(data[0], { status: 201 })
+    }
+
     if (resource === 'enrollments') {
       const body = await request.json()
       await supabase.from('enrollments').insert([body])
@@ -120,6 +127,17 @@ export async function PUT(request) {
     const resource = pathParts[0]
     const id = pathParts[1]
 
+    if (resource === 'courses' && id) {
+      const body = await request.json()
+      const { data, error } = await supabase
+        .from('courses')
+        .update(body)
+        .eq('slug', id)
+        .select()
+      if (error) throw error
+      return Response.json(data[0])
+    }
+
     if (resource === 'enrollments' && id) {
       const body = await request.json()
       const { data, error } = await supabase
@@ -129,6 +147,50 @@ export async function PUT(request) {
         .select()
       if (error) throw error
       return Response.json({ id, status: body.status, updated: data?.[0] })
+    }
+
+    if (resource === 'testimonials' && id) {
+      const formData = await request.formData()
+      const body = Object.fromEntries(formData)
+      const { data, error } = await supabase
+        .from('testimonials')
+        .update(body)
+        .eq('id', id)
+        .select()
+      if (error) throw error
+      return Response.json(data[0])
+    }
+
+    return Response.json({ error: 'Not found' }, { status: 404 })
+  } catch (error) {
+    console.error('API Error:', error)
+    return Response.json({ error: error.message }, { status: 500 })
+  }
+}
+
+export async function DELETE(request) {
+  try {
+    const url = new URL(request.url)
+    const pathParts = url.pathname.replace('/api/', '').split('/')
+    const resource = pathParts[0]
+    const id = pathParts[1]
+
+    if (resource === 'courses' && id) {
+      const { error } = await supabase.from('courses').delete().eq('slug', id)
+      if (error) throw error
+      return Response.json({ message: 'Course deleted' })
+    }
+
+    if (resource === 'testimonials' && id) {
+      const { error } = await supabase.from('testimonials').delete().eq('id', id)
+      if (error) throw error
+      return Response.json({ message: 'Testimonial deleted' })
+    }
+
+    if (resource === 'enrollments' && id) {
+      const { error } = await supabase.from('enrollments').delete().eq('id', id)
+      if (error) throw error
+      return Response.json({ message: 'Enrollment deleted' })
     }
 
     return Response.json({ error: 'Not found' }, { status: 404 })
