@@ -89,7 +89,7 @@ function CourseDetail() {
         <div className="container">
           <h2>What You'll Learn</h2>
           <div className="learn-grid">
-            {course.whatYouLearn.map((item, index) => (
+            {Array.isArray(course.whatYouLearn) && course.whatYouLearn.map((item, index) => (
               <div className="learn-item" key={index}>
                 <FaCheck className="check-icon" />
                 <span>{item}</span>
@@ -104,7 +104,7 @@ function CourseDetail() {
         <div className="container">
           <h2>Course Curriculum</h2>
           <div className="modules-grid">
-            {course.modules.map((module, index) => (
+            {Array.isArray(course.modules) && course.modules.map((module, index) => (
               <div className="module-card" key={index}>
                 <div className="module-header">
                   <span className="module-number">Module {index + 1}</span>
@@ -123,7 +123,7 @@ function CourseDetail() {
         <div className="container">
           <h2>After This Course</h2>
           <div className="outcomes-grid">
-            {course.outcomes.map((outcome, index) => (
+            {Array.isArray(course.outcomes) && course.outcomes.map((outcome, index) => (
               <div className="outcome-card" key={index}>
                 <div className="outcome-icon"><FaBriefcase /></div>
                 <p>{outcome}</p>
