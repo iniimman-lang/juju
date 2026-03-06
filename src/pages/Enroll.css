@@ -130,6 +130,16 @@
   width: 100%;
 }
 
+.error-message {
+  background: #fee;
+  color: #c00;
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-lg);
+  font-size: 0.95rem;
+  border-left: 0.25rem solid #c00;
+}
+
 /* Benefits */
 .enroll-benefits {
   padding: var(--spacing-lg);

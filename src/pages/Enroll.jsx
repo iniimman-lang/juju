@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { FaCheck, FaUser, FaEnvelope, FaPhone, FaGraduationCap } from 'react-icons/fa'
 import './Enroll.css'
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001'
+
 function Enroll() {
   const [formData, setFormData] = useState({
     name: '',
@@ -13,6 +15,8 @@ function Enroll() {
   })
 
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState('')
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -38,8 +42,10 @@ function Enroll() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setSubmitting(true)
+    setError('')
     try {
-      await fetch('http://localhost:5001/api/enrollments', {
+      await fetch(`${API_URL}/api/enrollments`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -47,6 +53,9 @@ function Enroll() {
       setSubmitted(true)
     } catch (error) {
       console.error('Error:', error)
+      setError('Failed to submit application. Please try again.')
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -150,8 +159,13 @@ function Enroll() {
                     rows="4"
                   />
                 </div>
-                <button type="submit" className="btn primary btn-large btn-full">
-                  Submit Application
+                {error && <div className="error-message">{error}</div>}
+                <button 
+                  type="submit" 
+                  className="btn primary btn-large btn-full"
+                  disabled={submitting}
+                >
+                  {submitting ? 'Submitting...' : 'Submit Application'}
                 </button>
               </form>
             </div>
